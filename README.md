@@ -1,3 +1,3 @@
-# JavaScript_Small_Problems
+# JavaScript-Small-Problems
 
 A collection of small problem exercises completed in JavaScript. 
