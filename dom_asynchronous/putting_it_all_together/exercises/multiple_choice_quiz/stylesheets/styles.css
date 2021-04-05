@@ -1,0 +1,77 @@
+@import "./reset.css";
+
+body {
+  background-color: #eee9ce;
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+header {
+  margin: 22px 0px 32px;
+}
+
+label {
+  display: block;
+}
+
+cite {
+  font-style: italic;
+}
+
+input[type="radio"] {
+  margin: 0px 0px 11px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  color: black;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 18px;
+  font-family: inherit;
+}
+
+.active {
+  background-color: #55ec39;
+}
+
+.inactive {
+  background-color: #cccccc;
+}
+
+.wrapper {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+.question p {
+  margin-bottom: 10px;
+  line-height: 24px;
+}
+
+.answer-msg {
+  visibility: hidden;
+  box-sizing: border-box;
+  height: 48px;
+  margin-top: 12px;
+  padding: 8px;
+}
+
+.incorrect-answer {
+  visibility: visible;
+  border: 1px solid red;
+}
+
+.correct-answer {
+  visibility: visible;
+  border: 1px solid green;
+}

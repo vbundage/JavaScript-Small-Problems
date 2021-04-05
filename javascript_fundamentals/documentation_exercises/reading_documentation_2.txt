@@ -1,0 +1,86 @@
+1. In the following code snippet, find all violations of the style guide.
+Rewrite it so that it conforms with the guide.
+
+let iceCreamTaste = 'chocolate';
+let iceCreamDensity = 10;
+
+while (iceCreamDensity > 0) {
+  console.log('Drip...');
+  iceCreamDensity -= 1;
+}
+
+console.log('The '+ iceCreamTaste + ' ice cream melted.');
+
+
+2. Without looking into your notes, try to remember which primitive data types
+  are defined in JavaScript. Then find this information on MDN.
+Number
+String
+Boolean
+Null
+Undefined
+Symbol
+
+3. Using the documentation, determine how we can find the largest numeric value
+  that can be represented in JavaScript. Write a line of code that returns this value.
+Number.MAX_VALUE;
+
+4. Find the MDN documentation on operator precedence, and use it to find out
+  which result the expression 4 * 5 + 3 ** 2 / 10 evaluates to.
+The result will be 20.9. (4 * 5) + ((3 ** 2) / 10)
+
+5. Find out what Date.now() returns.
+The Date.now() method returns the number of milliseconds elapsed since
+January 1, 1970 00:00:00 UTC.
+
+6. The MDN page for Date lists two methods to get the year of a date.
+let today = new Date();
+
+today.getYear();
+today.getFullYear();
+
+What is the difference between the two methods and which one should you use?
+Date.getYear() - Returns the year (usually 2-3 digits) in the specified date according to local time.
+Date.getFullYear() - Returns the year of the specified date according to local time.
+
+Date.getFullYear() should be used.
+
+7. How many arguments does the Array.prototype.join() method expect?
+  What happens if you call it with less or more arguments?
+Array.prototype.join() expects an argument being a string separator.
+Omitting arguments will default to separating with a comma
+Calling with additional arguments will be ignored.
+
+8. Find out how we can join two or more strings together.
+str.concat() method
+using + operator
+
+9. The below code raises a SyntaxError. If you run the code, you'll see the following error message:
+SyntaxError: Unexpected token &&
+
+Find and read the documentation about this error on MDN. Then, fix the code.
+
+let speedLimit = 60;
+let currentSpeed = 80;
+
+if ((currentSpeed > speedLimit) && ((currentSpeed - speedLimit) > 5)) {
+  console.log('"People are so bad at driving cars ' +
+    'that computers don\'t have to be that good to be much better." ' +
+    '-- Marc Andreessen');
+}
+
+10. Run the following code.
+
+let tweet = 'Woohoo! :-)';
+
+if (tweet.length() > 140) {
+  console.log('Tweet is too long!');
+}
+
+You'll see that it raises an error:
+
+TypeError: tweet.length is not a function
+
+Check the documentation of both TypeError and length, in order to find out
+  what causes the error.
+The error is being raised because length is not a function but a property of String.

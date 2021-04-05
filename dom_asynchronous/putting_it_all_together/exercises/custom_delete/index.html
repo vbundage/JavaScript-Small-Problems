@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Todos</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./stylesheets/todos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script src="./javascripts/todos.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Todos</h1>
+    </header>
+
+    <div id="overlay" class="hide"></div>
+
+    <div id="prompt" class="hide">
+      <p>Are you sure you want to delete this todo?</p>
+      <a href="#" id="yes">Yes</a>
+      <a href="#" id="no">No</a>
+    </div>
+
+    <div id="context-menu" class="hide">
+      <ul>
+        <li id="edit-todo">Edit Todo</li>
+        <li id="show-details">Show Details</li>
+        <li id="delete-menu">Delete</li>
+      </ul>
+    </div>
+
+    <div id="todos">
+      <ul>
+        <script id="todos-template" type="text/x-handlebars">
+          {{#each todoItems}}
+            <li data-id="{{id}}">
+              <h3>{{title}}</h3>
+              <span class="delete"></span>
+            </li>
+          {{/each}}
+        </script>
+      </ul>
+    </div>
+  </body>
+</html>

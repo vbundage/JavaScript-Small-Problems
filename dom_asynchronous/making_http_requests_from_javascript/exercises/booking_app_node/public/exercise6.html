@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Viewing Bookings</title>
+    <style>
+      li:hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bookings</h1>
+    <ul id="booking-list">
+    </ul>
+
+    <script>
+      const URL = 'http://localhost:3000/api/bookings';
+      const bookingList = document.querySelector('#booking-list');
+    
+      function makeRequest(method, url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+        xhr.responseType = 'json';
+        xhr.send();
+          
+        return new Promise((resolve, reject) => {
+          xhr.addEventListener('load', () => {
+            if (xhr.status === 200) resolve(xhr.response);
+          });
+        });
+      }
+
+      async function getBookingInfo(dates) {
+        const info = {};
+        for (let date of dates) {
+          try {
+            const booking = await makeRequest('GET', URL + `/${date}`);
+            info[date] = booking;
+          } catch (err) {
+            console.log(err);
+          }
+        }
+
+        return info;
+      }
+
+      function renderBookingDetails(bookingInfo) {
+        const bookingList = document.querySelector('#booking-list');
+
+        for (let date in bookingInfo) {
+          const dateLi = document.createElement('li');
+          dateLi.innerText = date;
+
+          const ul = document.createElement('ul');
+          ul.setAttribute('hidden', 'true');
+
+          bookingInfo[date].forEach(booking => {
+            const li = document.createElement('li');
+            li.innerText = booking.join(' | ');
+            ul.appendChild(li);
+          });
+
+          dateLi.appendChild(ul);
+          bookingList.appendChild(dateLi);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const dates = await makeRequest('GET', URL);
+          const bookingInfo = await getBookingInfo(dates);
+          renderBookingDetails(bookingInfo);
+
+          bookingList.addEventListener('click', event => {
+            const ul = event.target.firstElementChild;
+            ul.toggleAttribute('hidden');
+          });
+        } catch(err) {
+          console.log(err);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Node Swap</title>
+    <script>
+      function nodeSwap(id1, id2) {
+        let node1 = document.getElementById(id1);
+        let node2 = document.getElementById(id2);
+
+        if (!isInvalidSwap(node1, node2)) return undefined;
+
+        let node1Copy = node1.cloneNode(true);
+        let node2Copy = node2.cloneNode(true);
+
+        node1.parentElement.replaceChild(node2Copy, node1);
+        node2.parentElement.replaceChild(node1Copy, node2);
+        node2Copy.replaceWith(node2);
+        node1Copy.replaceWith(node1);
+      }
+
+      function isInvalidSwap(node1, node2) {
+        if (!node1 || !node2) return false;
+        return (!node1.contains(node2) && !node2.contains(node1));
+      }
+    </script>
+  </head>
+  <body>
+    <div id="1">
+      <div id="4"></div>
+      <div id="5">
+        <div id="6"></div>
+      </div>
+    </div>
+    <div id="2"></div>
+    <div id="3">
+      <div id="7"></div>
+      <div id="8"></div>
+      <div id="9"></div>
+    </div>
+  </body>
+</html>

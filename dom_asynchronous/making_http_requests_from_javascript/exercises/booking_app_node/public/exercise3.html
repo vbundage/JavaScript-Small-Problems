@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Adding Staff</title>
+    <style>
+      #form-div {
+        border: solid 1px slategrey;
+        padding: 1px;
+        margin-bottom: 12px;
+      }
+
+      #staff-form {
+        border: solid 1px slategrey;
+      }
+
+      #staff-form > dl {
+        color: #B46772;
+        font-weight: bold;
+        margin: 8px 0 8px 64px;
+      }
+
+      dt {
+        float: left;
+        width: 60px;
+      }
+
+      dd {
+        margin-bottom: .5em;
+      }
+      
+      button {
+        padding: 24px 42px;
+        border-radius: 8px;
+        border-style: none;
+        background-color: #E14453;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="form-div">
+      <form id="staff-form" name="staff-form">
+        <dl>
+          <dt>
+            <label for="email">Email : </label>
+          </dt>
+          <dd>
+            <input type="email" name="email" id="email">
+          </dd>
+          <dt>
+            <label for="name">Name : </label>
+          </dt>
+          <dd>
+            <input type="text" name="name" id="name">
+          </dd>
+        </dl>
+      </form>
+    </div>
+    <button type="submit">Submit</button>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        let button = document.querySelector('button');
+        let form = document.getElementById('staff-form');
+
+        button.addEventListener('click', event => {
+          event.preventDefault();
+
+          let request = new XMLHttpRequest();
+          let data = new FormData(form);
+          request.open('POST', 'http://localhost:3000/api/staff_members');
+          
+          request.addEventListener('load', () => {
+            if (request.status === 201) {
+              let id = JSON.parse(request.response).id
+              alert(`Successfully created staff with id: ${id}`);
+              form.reset();
+            } else if (request.status === 400) {
+              alert(request.responseText);
+            }
+          });
+
+          request.send(data);
+        });
+      });
+    </script>
+  </body>
+</html>

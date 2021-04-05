@@ -1,0 +1,53 @@
+@import './reset.css';
+
+body {
+  background-color: #999900;
+  font-family: 'Times New Roman';
+}
+
+header {
+  margin: 24px 0 25px;
+}
+
+h1 {
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 21px;
+}
+
+p {
+  line-height: 18px;
+  margin-bottom: 16px;
+}
+
+article {
+  margin-bottom: 22px;
+}
+
+#languages {
+  box-sizing: border-box;
+  background-color: white;
+  width: 600px;
+  margin: 0 auto;
+  padding: 42px 20px 1px;
+  border-radius: 4px;
+}
+
+#languages a {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 90.5px;
+  text-decoration: none;
+  color: white;
+  background-color: #999900;
+  padding: 1px 7.5px;
+  border-radius: 4px;
+  vertical-align: middle;
+}

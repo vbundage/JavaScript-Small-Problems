@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Adding Schedules</title>
+    <style>
+      p {
+        display: inline-block;
+        position: absolute;
+        top: -27px;
+        left: 1em;
+        background-color: white;
+      }
+
+      .schedule-container {
+        position: relative;
+        border: solid 2.5px black;
+        margin-top: .6em;
+      }
+
+      .schedule-container > dl {
+        color: #B46772;
+        font-weight: bold;
+        margin: 60px 30px;
+      }
+
+      select, input {
+        width: 177px;
+      }
+
+      dt {
+        float: left;
+        text-align: right;
+        width: 100px;
+        margin-right: 10px;
+      }
+
+      dd {
+        margin-bottom: 8px;
+        margin-left: 0px;
+      }
+      
+      button {
+        padding: 0 25px;
+        margin-top: 16px;
+        width: 128px;
+        height: 72px;
+        border-radius: 8px;
+        border-style: none;
+        text-align: center;
+        color: white;
+      }
+
+      #submit-btn {
+        background-color: #E14453;
+      }
+
+      #add-btn {
+        background-color: #55ABD7;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="add-btn" type="button">Add more schedules</button>
+    <form id="form"></form>
+    <button id="submit-btn" type="submit" form="form">Submit</button>
+    <script>
+      function createScheduleItem(text, inputType, inputName, scheduleNum) {
+        const dt = document.createElement('dt');
+        const dd = document.createElement('dd');
+        const label = document.createElement('label');
+        label.setAttribute('for', `${inputName}_${scheduleNum}`);
+        label.innerText = text;
+        const input = document.createElement(inputType);
+        input.setAttribute('type', 'text');
+        input.setAttribute('name', `${inputName}_${scheduleNum}`);
+        input.setAttribute('id', `${inputName}_${scheduleNum}`);
+
+        if (inputType === 'select') input.setAttribute('name', `staff_id`);
+
+        if (inputName === 'date') {
+          addPlaceholder('mm-dd-yy', input);
+        } else if (inputName === 'time') {
+          addPlaceholder('hh:mm', input);
+        }
+
+        dt.appendChild(label);
+        dd.appendChild(input);
+
+        return [dt, dd];
+      }
+
+      function addPlaceholder(text, element) {
+        element.setAttribute('placeholder', text);
+      }
+
+      function createSchedule(scheduleNum) {
+        const container = document.createElement('fieldset');
+        container.setAttribute('id', `schedule-container-${scheduleNum}`);
+        container.classList.add('schedule-container');
+
+        const dl = document.createElement('dl');
+
+        const paragraph = document.createElement('p');
+        paragraph.innerText = `Schedule ${scheduleNum}`;
+        
+        let selectItemArray = createScheduleItem('Staff Name :', 'select', 'staff', scheduleNum);
+        let dateItemArray = createScheduleItem('Date :', 'input', 'date', scheduleNum);
+        let timeItemArray = createScheduleItem('Time :', 'input', 'time', scheduleNum);
+
+        dl.append(...[selectItemArray, dateItemArray, timeItemArray].flat());
+        container.append(paragraph, dl);
+        return container;
+      }
+
+      const addSchedule = (() => {
+        let nextScheduleNum = 1;
+
+        return function(staff, form) {
+          let newSchedule = createSchedule(nextScheduleNum);
+          let staffSelect = newSchedule.querySelector(`#staff_${nextScheduleNum}`);
+
+          staff.forEach(staffMember => {
+            let option = document.createElement('option');
+            option.setAttribute('value', `${staffMember.id}`);
+            option.innerText = staffMember.name;
+            staffSelect.add(option);
+          });
+
+          form.appendChild(newSchedule);
+          nextScheduleNum += 1;
+        }
+      })();
+
+      function retrieveSchedules(form, count) {
+        let schedules = [];
+        for (let num = 1; num <= count; num += 1) {
+          schedules.push(
+            {
+              "staff_id": form[`staff_${num}`].value,
+              "date": form[`date_${num}`].value,
+              "time": form[`time_${num}`].value
+            }
+          );
+        }
+        
+        return schedules;
+      }
+
+      function makeRequest(method, url, data) {
+        const request = new XMLHttpRequest();
+        request.open(method || 'GET', url);
+
+        if (method === 'POST') {
+          request.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+          request.send(JSON.stringify(data));
+        } else {
+          request.send();
+        }
+        
+        return request;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const staffRequest = makeRequest('GET', 'http://localhost:3000/api/staff_members');
+        const form = document.querySelector('form');
+        const submitBtn = document.getElementById('submit-btn');
+        const addBtn = document.getElementById('add-btn');
+
+        let scheduleCount = 0;
+        let staff;
+        staffRequest.addEventListener('load', () => {
+          staff = JSON.parse(staffRequest.response);
+          scheduleCount += 1;
+          addSchedule(staff, form);
+        });
+
+        addBtn.addEventListener('click', () => {
+          scheduleCount += 1;
+          addSchedule(staff, form);
+        });
+
+        form.addEventListener('submit', event => {
+          event.preventDefault();
+
+          const data = { 'schedules': retrieveSchedules(form, scheduleCount) };
+          const addScheduleRequest = 
+            makeRequest('POST', 'http://localhost:3000/api/schedules', data);
+
+          addScheduleRequest.addEventListener('load', () => {
+            if (addScheduleRequest.status === 201) {
+              form.reset();
+            }
+
+            alert(addScheduleRequest.responseText);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Child Nodes</title>
+  </head>
+  <body>
+    <div id="1">
+      <h1 id="2">Hello, <em id="3">World</em></h1>
+      <p id="4">
+        Welcome to wonderland. This is an
+        <span id="5">awesome</span> place.
+      </p>
+      <a href="#" id="6"><strong id="7">Enter</strong></a>
+      <div id="8"><p id="9"><a href="#" id="10">Go back</a></p></div>
+    </div>
+  </body>
+  <script>
+    function childNodes(id) {
+      let node = document.getElementById(id);
+      let directCount = node.childNodes.length
+      let indirectCount = getDescendantCount(node) - directCount;
+
+      return [directCount, indirectCount];
+    }
+
+    function getDescendantCount(node) {
+      let count = 0;
+      let walk = node => {
+        count += node.childNodes.length;
+        for (let idx = 0; idx < node.childNodes.length; idx += 1) {
+          walk(node.childNodes[idx]);
+        }
+      };
+
+      walk(node);
+
+      return count;
+    }
+  </script>
+</html>
+
+<!--
+  - id 1 (9 direct, 12 indirect)
+    - empty text node
+    - id2 node (2 direct, 1 indirect)
+      - text node
+      - id3 node (1 direct)
+        - text node
+    - empty text node
+    - id4 node (3 direct, 1 indirect)
+      - text node
+      - id5 node (1 direct)
+        - text node
+      - text node
+    - empty text node
+    - id6 node (1 direct, 1 indirect)
+      - id7 node (1 direct)
+        - text node
+    - empty text node
+    - id8 node (1 direct, 2 indirect)
+      - id9 node (1 direct, 1 indirect)
+        - id10 node (1 node)
+          - text node
+    - empty text node
+-->

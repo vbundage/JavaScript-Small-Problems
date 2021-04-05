@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Cancellations</title>
+  </head>
+  <body>
+    <h1>Cancel Schedule</h1>
+      <form id="delete-form">
+        <label>
+          Schedule ID: 
+          <input id="schedule_id" name="schedule_id" />
+        </label>
+        <button>Submit</button>
+      </form>
+    <h1>Cancel Booking</h1>
+    <form id="cancel-form">
+      <label>
+        Booking ID:
+        <input id="booking_id" name="booking_id" />
+      </label>
+      <button id="cancel-btn">Submit</button>
+    </form>
+
+    <script>
+      function makeRequest(method, url) {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, '/api/' + url);
+        xhr.send();
+
+        xhr.addEventListener('load', () => {
+          if (xhr.status === 204) {
+            if (method === 'PUT') alert('The booking has been cancelled');
+            if (method === 'DELETE') alert('The schedule has been deleted');
+          } else if (xhr.status >= 403) {
+            alert(xhr.responseText);
+          }
+        });
+      }
+
+      function cancelSchedule(scheduleId) {
+        makeRequest('DELETE', `schedules/${scheduleId}`);
+      }
+
+      function cancelBooking(bookingId) {
+        makeRequest('PUT', `bookings/${bookingId}`);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const deleteForm = document.getElementById('delete-form');
+        const cancelForm = document.getElementById('cancel-form');
+
+        deleteForm.addEventListener('submit', event => {
+          event.preventDefault();
+          cancelSchedule(deleteForm['schedule_id'].value);
+        });
+
+        cancelForm.addEventListener('submit', event => {
+          event.preventDefault();
+          cancelBooking(cancelForm['booking_id'].value);
+        });        
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Space Design | Team</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1.0" />
+    <link rel="stylesheet" href="site.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script src="javascripts/companysite.js"></script>
+
+    <script id="profile-content" type="text/x-handlebars">
+      <img id="profile-img" src=images/img_{{lower_firstname name}}.jpg alt={{upper_firstname name}} />
+      <h3>{{name}}</h3>
+      <p>{{bio}}</p>
+    </script>
+  </head>
+  <body>
+    <div id="overlay" class="hide"></div>
+
+    <div id="modal" class="hide">
+      <button id="close" name="close">
+        <img src="images/icon_close.png" alt="close" />
+      </button>
+      <article id="modal-article">
+      </article>
+    </div>
+
+    <header>
+      <h1>
+        <a href="home.html">SpaceDesign</a>
+      </h1>
+      <nav>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="team.html" class="active">Team</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div id="team" class="column">
+        <article>
+          <h2>Team</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniadolor</p>
+          <ul id="team-list">
+            <li>
+              <a href="#" data-name="kevin">
+                <img src="images/img_kevin.jpg" alt="Kevin Wang" />
+                Kevin
+              </a>
+            </li>
+            <li>
+              <a href="#" data-name="louis">
+                <img src="images/img_louis.jpg" alt="Louis Burton" />
+                Louis
+              </a>
+            </li>
+            <li>
+              <a href="#" data-name="kasper">
+                <img src="images/img_kasper.jpg" alt="Kasper Salto" />
+                Kasper
+              </a>
+            </li>
+            <li>
+              <a href="#" data-name="chris">
+                <img src="images/img_chris.jpg" alt="Chris Lee" />
+                Chris
+              </a>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        Lorem ipsum dolor sit amet, consectetu
+        <br />
+        incididunt ut labore et dolore magna aliqua. Ut enim ad
+      </p>
+      <ul>
+        <li><a href="#" class="twitter">Twitter</a></li>
+        <li><a href="#" class="facebook">Facebook</a></li>
+        <li><a href="#" class="email">Email</a></li>
+        <li><a href="#" class="instagram">Instagram</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>

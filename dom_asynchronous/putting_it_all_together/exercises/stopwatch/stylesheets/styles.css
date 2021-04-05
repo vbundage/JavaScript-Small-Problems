@@ -1,0 +1,49 @@
+@import "./reset.css";
+
+body {
+  background-color: hsl(52, 64%, 38%);
+  font-size: 16px;
+  color: white;
+  padding-top: 200px;
+}
+
+button {
+  background-color: #a19123;
+  padding: 10px 30px;
+  border: 1px solid white;
+  color: white;
+  border-radius: 4px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #91811f;
+}
+
+span {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 100px;
+}
+
+#stopwatch {
+  width: 570px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#timer {
+  font-size: 78px;
+  font-family: 'Arial';
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+#controls {
+  width: 220px;
+  margin: 0 auto;
+}
+
+#reset-btn {
+  margin-left: 20px;
+}

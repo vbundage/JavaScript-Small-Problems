@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Programming Languages Info</title>
+    <link rel="stylesheet" href="./stylesheets/language-info.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script src="javascripts/languageInfo.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>Programming Languages</h1>
+    </header>
+
+    <div id="languages">
+      <script id="languages-template" type="text/x-handlebars">
+        {{#each languages}}
+          <article data-name="{{name}}">
+            <h2>{{name}}</h2>
+            <p>{{short description}}</p>
+            {{#if (isLong description)}}
+              <a href="#" class="show-less">Show More</a>
+            {{/if}}
+          </article>
+        {{/each}}
+      </script>
+    </div>
+  </body>
+</html>

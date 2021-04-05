@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="./stylesheets/styles.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Sign up Form</h1>
+      </header>
+
+      <form action="#" method="post" novalidate>
+        <span class="hide">Form cannot be submitted until errors are corrected.</span>
+        <fieldset>
+          <label for="first_name">First Name</label>
+          <input type="text" id="first-name" name="first_name" pattern="[a-zA-Z'\s]+" required><span class="error-msg"></span>
+          <label for="last_name">Last Name</label>
+          <input type="text" id="last-name" name="last_name" pattern="[a-zA-Z'\s]+" required><span class="error-msg"></span>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="someone@example.com" pattern=".+@.+" required><span class="error-msg"></span>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" minlength="10" required><span class="error-msg"></span>
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="111-222-3333" pattern="\d{3}-\d{3}-\d{4}"><span class="error-msg"></span>
+          <label for="credit_card">Credit Card</label>
+          <input type="text" id="credit-card-1" name="credit_card" maxlength="4">-
+          <input type="text" id="credit-card-2" name="credit_card" maxlength="4">-
+          <input type="text" id="credit-card-3" name="credit_card" maxlength="4">-
+          <input type="text" id="credit-card-4" name="credit_card" maxlength="4"><span class="error-msg"></span>
+        </fieldset>
+        <button type="submit">Sign Up</button>
+      </form>
+    </main>
+
+    <div id="serialized">
+      <h2>Serialized Form</h2>
+      <p></p>
+    </div>
+    <script src="./javascripts/signup.js"></script>
+  </body>
+</html>

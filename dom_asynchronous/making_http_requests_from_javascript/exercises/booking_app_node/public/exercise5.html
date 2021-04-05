@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Booking Time Slots</title>
+    <style>
+      fieldset {
+        padding: 0;
+        border-style: none;
+      }
+
+      #newstudent-form {
+        margin-top: 1em;
+        padding: 1em;
+        background-color: #C6C4C6;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="schedule-form" name="schedule-form">
+      <h1>Schedules</h1>
+      <fieldset>
+        <label>
+          Please select one schedule
+          <select id="schedule-select" name="id">
+          </select>
+        </label>
+        <br>
+        <label>
+          Email: 
+          <input type="email" id="student_email" name="student_email" />
+        </label>
+        <button type="submit" id="submit-schedule">Submit</button>
+      </fieldset>
+    </form>
+
+    <script>
+      function makeRequest(method, url, data) {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method || 'GET', url);
+
+        if (method === 'POST') {
+          xhr.send(data);
+        } else {
+          xhr.send();
+        }
+        
+        return xhr;
+      }
+
+      function mapStaffToSchedules(staff, schedules) {
+        let info = [];
+        staff.forEach(staffMember => {
+          const staffSchedules = schedules.filter(schedule => {
+            return (schedule.staff_id === staffMember.id && !schedule.student_email);
+          });
+
+          if (staffSchedules.length > 0) {
+            let staffInfo = {
+              staff_id: staffMember.id,
+              name: staffMember.name,
+              schedules: staffSchedules
+            }
+
+            info.push(staffInfo);
+          }
+        });
+
+        return info;
+      }
+
+      function addSchedules(select, scheduleInfo) {
+        scheduleInfo.forEach(info => {
+          info.schedules.forEach(schedule => {
+            const option = document.createElement('option');
+            option.value = schedule.id;
+            option.innerText = `${info.name} | ${schedule.date} | ${schedule.time}`;
+            select.add(option);
+          });
+        });
+      }
+
+      function newStudentFormTemplate(email, bookingSequence) {
+        const form = document.createElement('form');
+        form.setAttribute('id', 'newstudent-form');
+        form.setAttribute('name', 'newstudent-form');
+
+        const header = document.createElement('h1');
+        header.innerText = 'Please provide new student details';
+        const fieldset = document.createElement('fieldset');
+        const emailLabel = document.createElement('label');
+        emailLabel.innerText = 'Email: ';
+        const nameLabel = document.createElement('label');
+        nameLabel.innerText = 'Name: ';
+        const bookingSequenceLabel = document.createElement('label');
+        bookingSequenceLabel.innerText = 'Booking Sequence: ';
+
+        const emailInput = document.createElement('input');
+        emailInput.setAttribute('type', 'email');
+        emailInput.setAttribute('id', 'new-email');
+        emailInput.setAttribute('name', 'email');
+        emailInput.value = email;
+        const nameInput = document.createElement('input');
+        nameInput.setAttribute('type', 'text');
+        nameInput.setAttribute('id', 'name');
+        nameInput.setAttribute('name', 'name');
+        const bookingSequenceInput = document.createElement('input');
+        bookingSequenceInput.setAttribute('type', 'text');
+        bookingSequenceInput.setAttribute('id', 'booking_sequence');
+        bookingSequenceInput.setAttribute('name', 'booking_sequence');
+        bookingSequenceInput.value = bookingSequence;
+
+        const submitBtn = document.createElement('button');
+        submitBtn.innerText = 'Submit';
+        submitBtn.setAttribute('type', 'submit');
+        submitBtn.setAttribute('id', 'submit-newstudent');
+
+        form.appendChild(fieldset);
+        fieldset.append(header, emailLabel, nameLabel, bookingSequenceLabel, submitBtn);
+
+        emailLabel.appendChild(emailInput);
+        emailLabel.insertAdjacentElement('afterend', document.createElement('br'));
+        nameLabel.appendChild(nameInput);
+        nameLabel.insertAdjacentElement('afterend', document.createElement('br'));
+        bookingSequenceLabel.appendChild(bookingSequenceInput);
+        bookingSequenceLabel.insertAdjacentElement('afterend', document.createElement('br'));
+
+        return form;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const scheduleForm = document.querySelector('#schedule-form');
+        const scheduleSelect = document.querySelector('#schedule-select');
+        const staffRequest = makeRequest(null, 'http://localhost:3000/api/staff_members');
+        const scheduleRequest = makeRequest(null, 'http://localhost:3000/api/schedules');
+        let staff;
+        let schedules;
+        let scheduleInfo;
+
+        staffRequest.addEventListener('load', () => {
+          staff = JSON.parse(staffRequest.response);
+        });
+
+        scheduleRequest.addEventListener('load', () => {
+          schedules = JSON.parse(scheduleRequest.response);
+          scheduleInfo = mapStaffToSchedules(staff, schedules);
+          addSchedules(scheduleSelect, scheduleInfo);
+        });
+
+        scheduleForm.addEventListener('submit', event => {
+          event.preventDefault();
+          
+          const scheduleData = new FormData(scheduleForm);
+          const bookRequest = makeRequest('POST', 'http://localhost:3000/api/bookings', scheduleData);
+          
+          bookRequest.addEventListener('load', () => {
+            if (bookRequest.status === 204) {
+              alert('Booked');
+              window.location.href = '/exercise5.html'
+            } else if (bookRequest.status === 404) {
+              alert(bookRequest.responseText);
+
+              if (bookRequest.responseText.includes('booking_sequence')) {
+                const bookingSequence = bookRequest.responseText.replace(/\D/g, '');
+                const email = scheduleData.get('student_email');
+                const newStudentForm = newStudentFormTemplate(email, bookingSequence);
+
+                document.body.appendChild(newStudentForm);
+
+                newStudentForm.addEventListener('submit', event => {
+                  event.preventDefault();
+
+                  const studentData = new FormData(newStudentForm);
+                  const newStudentRequest = makeRequest('POST', 'http://localhost:3000/api/students', studentData);
+
+                  newStudentRequest.addEventListener('load', () => {
+                    alert(newStudentRequest.responseText);
+                    
+                    if (newStudentRequest.status === 201) {
+                      scheduleForm.dispatchEvent(new Event('submit', { cancelable: true }));
+                      scheduleForm.reset();
+                    }
+                  });
+                });
+              }
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

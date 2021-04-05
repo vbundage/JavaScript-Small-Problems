@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Cars for Sale</title>
+    <link rel="stylesheet" href="./stylesheets/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
+    <script src="./javascripts/carShop.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Buy Used Cars</h1>
+      <form id="car-filter">
+        <fieldset>
+          <label>
+            Make
+            <select id="make" name="make">
+              <script id="make-template" type="text/x-handlebars">
+                <option value="All">All</option>
+                {{#each values}}
+                  <option value="{{make}}">{{make}}</option>
+                {{/each}}
+              </script>
+            </select>
+          </label>
+          <label>
+            Model
+            <select id="model" name="model">
+              <script id="model-template" type="text/x-handlebars">
+                <option value="All">All</option>
+                {{#each values}}
+                  <option value="{{model}}">{{model}}</option>
+                {{/each}}
+              </script>
+            </select>
+          </label>
+          <label>
+            Price
+            <select id="price" name="price">
+              <script id="price-template" type="text/x-handlebars">
+                <option value="Any">Any</option>
+                {{#each values}}
+                  <option value="{{price}}">{{price}}</option>
+                {{/each}}
+              </script>
+            </select>
+          </label>
+          <label>
+            Year
+            <select id="year" name="year">
+              <script id="year-template" type="text/x-handlebars">
+                <option value="Any">Any</option>
+                {{#each values}}
+                  <option value="{{year}}">{{year}}</option>
+                {{/each}}
+              </script>
+            </select>
+          </label>
+          <button id="filter-btn" type="submit">Filter</button>
+        </fieldset>
+      </form>
+    </header>
+
+    <div id="cars">
+      <script id="cars-template" type="text/x-handlebars">
+        {{#each cars}}
+          <div>
+            <figure>
+              <img src="{{image}}">
+              <figcaption>
+                {{make}} {{model}}
+              </figcaption>
+            </figure>
+            <p>Year: {{year}}</p>
+            <p>Price: ${{price}}</p>
+            <a href="#">Buy</a>
+          </div>
+        {{/each}}
+      </script>
+    </div>
+  </body>
+</html>

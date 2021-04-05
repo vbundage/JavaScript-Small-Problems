@@ -1,0 +1,51 @@
+@import "./reset.css";
+
+body {
+  background-color: #22596e;
+  padding-top: 50px;
+}
+
+#calculator {
+  box-sizing: border-box;
+  background-color: white;
+  width: 350px;
+  height: 550px;
+  border-radius: 4px;
+  margin: 0 auto;
+  padding: 5px;
+}
+
+#operation-window {
+  box-sizing: border-box;
+  text-align: right;
+  height: 42px;
+  margin-top: 27px;
+  padding: 0 10px 26px;
+}
+
+#entry-window {
+  box-sizing: border-box;
+  font-size: 36px;
+  text-align: right;
+  height: 51px;
+  padding: 0 10px 14px;
+  border-bottom: .5px solid #cccccc;
+}
+
+#calculator-buttons {
+  margin-top: 15px;
+}
+
+.calc-button {
+  display: inline-block;
+  font-size: 18px;
+  text-decoration: none;
+  width: 81.9px;
+  height: 53px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  background-color: #cccccc;
+  color: black;
+  text-align: center;
+  line-height: 52px;
+}

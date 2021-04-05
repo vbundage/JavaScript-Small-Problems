@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Array to Nodes</title>
+    <script>
+      // const nodes = ["BODY",[["HEADER",[]],["MAIN",[]],["FOOTER",[]]]];
+      const nodes = ["BODY",[["DIV",[["DIV",[]],["DIV",[["DIV",[]]]]]],["DIV",[]],["DIV",[["DIV",[]],["DIV",[]],["DIV",[]]]]]];
+
+      function arrayToNodes(nodes) {
+        let parent = document.createElement(nodes[0]);
+        let children = nodes[1];
+        children.forEach(child => parent.appendChild(arrayToNodes(child)));
+        return parent;
+      }
+    </script>
+  </head>
+</html>

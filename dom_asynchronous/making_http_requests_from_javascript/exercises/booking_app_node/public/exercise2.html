@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Getting Schedules</title>
+  </head>
+  <body>
+    <script>
+      // function filterAvailableSchedules(scheduleData) {
+      //   return scheduleData.filter(schedule => !schedule.student_email);
+      // }
+
+      // function tallyStaffAvailability(scheduleData) {
+      //   let availableCounts = {};
+      //   scheduleData.forEach(schedule => {
+      //     let staffId = schedule.staff_id;
+
+      //     if (!availableCounts[`staff ${staffId}`]) {
+      //       availableCounts[`staff ${staffId}`] = 0;
+      //     }
+
+      //     availableCounts[`staff ${staffId}`] += 1;
+      //   });
+
+      //   return availableCounts;
+      // }
+
+      // function getAvailableSchedules() {
+      //   let request = new XMLHttpRequest();
+
+      //   request.open('GET', 'http://localhost:3000/api/schedules');
+      //   request.timeout = 5000;
+      //   request.responseType = 'json';
+
+      //   request.addEventListener('load', () => {
+      //     let schedules = filterAvailableSchedules(request.response);
+          
+      //     if (schedules.length === 0) {
+      //       alert("Sorry. There are currently no schedules available.");
+      //       return;
+      //     }
+
+      //     let availableCounts = tallyStaffAvailability(schedules);
+      //     alert(Object.keys(availableCounts)
+      //       .map(key => `${key}: ${availableCounts[key]}`).join('\n'));
+      //   });
+
+      //   request.addEventListener('timeout', () => {
+      //     alert("The request has timed out. Please try again.");
+      //   });
+
+      //   request.addEventListener('loadend', () => {
+      //     alert("The request has completed!");
+      //   });
+
+      //   request.send();
+      // }
+
+
+      // Further Exploration
+      const makeRequest = (url, method) => {
+        const request = new XMLHttpRequest();
+
+        return new Promise((resolve, reject) => {
+          request.open(method || 'GET', url);
+          request.timeout = 5000;
+          request.responseType = 'json';
+
+          request.addEventListener('load', () => {
+            if (request.status === 200) resolve(request);
+          });
+
+          request.addEventListener('timeout', () => {
+            reject("The request has timed out. Please try again.");
+          });
+
+          request.send();
+        });
+      }
+
+      function filterAvailableSchedules(scheduleData) {
+        return scheduleData.filter(schedule => !schedule.student_email);
+      }
+
+      function getAvailableSchedules() {
+        makeRequest('http://localhost:3000/api/staff_members')
+          .then((request) => {
+            let staffIds = request.response.map(member => member.id);
+            let promises = [];
+            staffIds.forEach(id => {
+              promises.push(makeRequest(`http://localhost:3000/api/schedules/${id}`));
+            });
+
+            promises.push(staffIds);
+            return Promise.all(promises);
+          })
+          .then(resolve => {
+            let staffIds = resolve.pop();
+            let schedules = resolve.map(request => filterAvailableSchedules(request.response));
+            let resultString = '';
+            
+            staffIds.forEach((id, index) => {
+              if (schedules[index].length > 0) {
+                resultString += `staff ${id}: ${schedules[index].length}\n`;
+              }
+            });
+
+            return resultString;
+          })
+          .then(resultString => alert(resultString))
+          .catch(error => alert(error))
+          .then(() => alert("The request has completed!"));
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        let btn = document.querySelector('button');
+        btn.addEventListener('click', () => {
+          getAvailableSchedules();
+        });
+      });
+    </script>
+    <button name="press">Press</button>
+  </body>
+</html>

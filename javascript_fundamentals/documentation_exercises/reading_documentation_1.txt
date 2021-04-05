@@ -1,0 +1,72 @@
+1. What is an excellent destination when looking for JavaScript documentation?
+JavaScript MDN
+
+2. Find out whether JavaScript has a method to lowercase a string, for example
+  converting 'Aloha, World!' into 'aloha, world!.
+The toLowerCase() method can be used to lowercase a string.
+
+3. Is there a method to capitalize a string, for example turning 'mountain'
+  into 'Mountain'?
+There is not a built-in method to capitalize a string.
+
+4. Locate the documentation for the Array built-in object on MDN.
+  How can we access the element 'and' in the array ['fish', 'and', 'chips']?
+It can be accessed using bracket notation.
+
+5. What happens if we take the array ['fish', 'and', 'chips'] and try to access
+  the element at index position 10? Try this in your JavaScript console.
+An undefined value will be returned.
+
+6. What are the return values of the statements on lines 3 to 5? Refer to the
+  MDN documentation about the Array object for help.
+  let trees = ['birch', 'pine', 'sequoia', 'palm tree'];
+
+  trees[trees.length - 1];
+  trees.pop();
+  trees[trees.length - 1];
+
+  line 3 will return 'palm tree'.
+  line 4 will return 'palm tree'.
+  line 5 will return 'sequoia'.
+
+
+7. Look up the MDN documentation for the typeof operator.
+What is its return value? Determine what the following statements will return:
+typeof 23.5; // 'number'
+typeof 'Call me Ishmael.'; // 'string'
+typeof false; 'boolean'
+typeof 0; 'number'
+typeof null; 'object'
+typeof undefined; 'undefined'
+
+typeof will return a string representing the type of operand.
+
+8. Consider the following code snippet:
+let tweet = "I'm learning to program! Woooot :-) #javascript #launchschool";
+
+let words = tweet.split(' ');
+let isValid = tweet.length < 140;
+
+What will the following statements return?
+typeof tweet; // 'string'
+typeof words; // 'object'
+typeof isValid; // 'boolean'
+
+
+9. Given the following tweet:
+let tweet = 'Starting to get the hang of it... #javascript #launchschool';
+
+What will the following statements evaluate to?
+
+tweet.split(' ');
+// ['Starting', 'to', 'get', 'the', 'hang', 'of', 'it...' '#javascript', '#launchschool']
+tweet.split(' ').reverse();
+// ['#launchschool', '#javascript', 'it...', 'of', 'hang', 'the', 'get', 'to', 'Starting']
+tweet.split(' ').reverse().join(' ');
+// '#launchschool #javascript it... of hang the get to Starting'
+
+10. In your JavaScript console, execute the following two lines of code to check
+  whether their return values differ and if so, how. Take a look at the MDN
+  documentation on equality comparisons to read about how == and === differ.
+  '8' == 8; // Returns true because == will coerce values before evaluating equality.
+  '8' === 8; // Returns false because === evaluates equality based on type and value.
